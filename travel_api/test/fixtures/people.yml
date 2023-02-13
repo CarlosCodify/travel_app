@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  last_name: MyString
+  identity_document: MyString
+  status: false
+  birthday: 2023-02-13
+
+two:
+  name: MyString
+  last_name: MyString
+  identity_document: MyString
+  status: false
+  birthday: 2023-02-13
