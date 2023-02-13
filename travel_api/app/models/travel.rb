@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Travel < ApplicationRecord
   belongs_to :bus
   belongs_to :route
