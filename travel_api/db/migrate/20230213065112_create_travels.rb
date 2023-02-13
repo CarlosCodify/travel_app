@@ -9,7 +9,7 @@ class CreateTravels < ActiveRecord::Migration[7.0]
       t.references :bus, null: false, foreign_key: true
       t.references :route, null: false, foreign_key: true
       t.references :driver, null: false, foreign_key: true
-      t.references :driver_assitant, null: false, foreign_key: true
+      t.references :driver_assistant, null: false, foreign_key: true
 
       t.timestamps
     end
