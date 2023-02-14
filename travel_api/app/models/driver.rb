@@ -2,5 +2,5 @@
 
 class Driver < ApplicationRecord
   validates :driver_licence, presence: true, uniqueness: true
-  #belongs_to :person
+  belongs_to :staff
 end
