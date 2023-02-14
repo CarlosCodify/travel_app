@@ -17,7 +17,7 @@ class YearManufacturersController < ApplicationController
   def show
     render json: @year_manufacturer.as_json(except: %i[created_at updated_at],
                                             include: [{ vehicle_model: { include: { manufacturer: { only: %i[id name] } },
-                                                                        only: %i[id name] } }])
+                                                                         only: %i[id name] } }])
   end
 
   # POST /year_manufacturers
