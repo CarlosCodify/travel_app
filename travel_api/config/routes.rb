@@ -1,8 +1,19 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :staffs
+  resources :sales
+  resources :buses
+  resources :travels
+  resources :manufacturers do
+    resources :vehicle_models, only: %i[index create]  
+  end
+  resources :vehicle_models, only: %i[show update destroy] do
+    resources :year_manufacturers, only: %i[index create] 
+  end
+  resources :year_manufacturers, only: %i[show update destroy]
+  resources :routes do
+    post :add_cities, on: :member
+  end
+  resources :cities 
 end
