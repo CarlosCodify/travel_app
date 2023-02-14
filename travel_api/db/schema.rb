@@ -45,18 +45,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_220805) do
   end
 
   create_table "driver_assistants", force: :cascade do |t|
-    t.bigint "staff_id", null: false
+    t.bigint "person_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["staff_id"], name: "index_driver_assistants_on_staff_id"
+    t.index ["person_id"], name: "index_driver_assistants_on_person_id"
   end
 
   create_table "drivers", force: :cascade do |t|
     t.string "driver_license"
-    t.bigint "staff_id", null: false
+    t.bigint "person_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["staff_id"], name: "index_drivers_on_staff_id"
+    t.index ["person_id"], name: "index_drivers_on_person_id"
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -84,10 +84,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_220805) do
   end
 
   create_table "sale_people", force: :cascade do |t|
-    t.bigint "staff_id", null: false
+    t.bigint "person_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["staff_id"], name: "index_sale_people_on_staff_id"
+    t.index ["person_id"], name: "index_sale_people_on_person_id"
   end
 
   create_table "sales", force: :cascade do |t|
@@ -167,9 +167,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_220805) do
 
   add_foreign_key "buses", "year_manufacturers"
   add_foreign_key "customers", "people"
-  add_foreign_key "driver_assistants", "staffs"
-  add_foreign_key "drivers", "staffs"
-  add_foreign_key "sale_people", "staffs"
+  add_foreign_key "driver_assistants", "people"
+  add_foreign_key "drivers", "people"
+  add_foreign_key "sale_people", "people"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales", "sale_people"
   add_foreign_key "seats", "buses"
