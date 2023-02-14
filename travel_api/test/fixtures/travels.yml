@@ -9,7 +9,7 @@ one:
   bus: one
   route: one
   driver: one
-  driver_assitant: one
+  driver_assistant: one
 
 two:
   departure_time: 2023-02-13
@@ -20,4 +20,4 @@ two:
   bus: two
   route: two
   driver: two
-  driver_assitant: two
+  driver_assistant: two
