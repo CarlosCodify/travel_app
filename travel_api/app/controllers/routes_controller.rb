@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class RoutesController < ApplicationController
-  before_action :set_route, only: %i[ show update destroy ]
+  before_action :set_route, only: %i[show update destroy]
 
   # GET /routes
   def index
@@ -47,13 +49,14 @@ class RoutesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_route
-      @route = Route.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def route_params
-      params.require(:route).permit(:name, :price, :distance)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_route
+    @route = Route.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def route_params
+    params.require(:route).permit(:name, :price, :distance)
+  end
 end

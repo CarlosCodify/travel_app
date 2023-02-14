@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class BusesController < ApplicationController
-  before_action :set_bus, only: %i[ show update destroy ]
+  before_action :set_bus, only: %i[show update destroy]
 
   # GET /buses
   def index
@@ -39,13 +41,14 @@ class BusesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bus
-      @bus = Bus.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def bus_params
-      params.require(:bus).permit(:type, :total_seats, :available_seats, :status, :year_manufacturer_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_bus
+    @bus = Bus.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def bus_params
+    params.require(:bus).permit(:type, :total_seats, :available_seats, :status, :year_manufacturer_id)
+  end
 end

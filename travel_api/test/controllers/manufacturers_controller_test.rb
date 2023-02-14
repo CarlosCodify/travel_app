@@ -1,35 +1,37 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class ManufacturersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @manufacturer = manufacturers(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get manufacturers_url, as: :json
     assert_response :success
   end
 
-  test "should create manufacturer" do
-    assert_difference("Manufacturer.count") do
-      post manufacturers_url, params: { manufacturer: {  } }, as: :json
+  test 'should create manufacturer' do
+    assert_difference('Manufacturer.count') do
+      post manufacturers_url, params: { manufacturer: {} }, as: :json
     end
 
     assert_response :created
   end
 
-  test "should show manufacturer" do
+  test 'should show manufacturer' do
     get manufacturer_url(@manufacturer), as: :json
     assert_response :success
   end
 
-  test "should update manufacturer" do
-    patch manufacturer_url(@manufacturer), params: { manufacturer: {  } }, as: :json
+  test 'should update manufacturer' do
+    patch manufacturer_url(@manufacturer), params: { manufacturer: {} }, as: :json
     assert_response :success
   end
 
-  test "should destroy manufacturer" do
-    assert_difference("Manufacturer.count", -1) do
+  test 'should destroy manufacturer' do
+    assert_difference('Manufacturer.count', -1) do
       delete manufacturer_url(@manufacturer), as: :json
     end
 

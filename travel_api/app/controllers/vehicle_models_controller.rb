@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class VehicleModelsController < ApplicationController
-  before_action :set_manufacturer, only: %i[ index create ]
-  before_action :set_vehicle_model, only: %i[ show update destroy ]
+  before_action :set_manufacturer, only: %i[index create]
+  before_action :set_vehicle_model, only: %i[show update destroy]
 
   # GET /vehicle_models
   def index
@@ -40,17 +42,18 @@ class VehicleModelsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_vehicle_model
-      @vehicle_model = VehicleModel.find(params[:id])
-    end
 
-    def set_manufacturer
-      @manufacturer = Manufacturer.find(params[:manufacturer_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_vehicle_model
+    @vehicle_model = VehicleModel.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def vehicle_model_params
-      params.require(:vehicle_model).permit(:name)
-    end
+  def set_manufacturer
+    @manufacturer = Manufacturer.find(params[:manufacturer_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def vehicle_model_params
+    params.require(:vehicle_model).permit(:name)
+  end
 end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SalesController < ApplicationController
-  before_action :set_sale, only: %i[ show update destroy ]
+  before_action :set_sale, only: %i[show update destroy]
 
   # GET /sales
   def index
@@ -15,7 +17,7 @@ class SalesController < ApplicationController
 
   # POST /sales
   def create
-    #TODO: Agregamos el params de travel_id y seat_ids para asignarlo al ticket, despues de realizarce la venta.
+    # TODO: Agregamos el params de travel_id y seat_ids para asignarlo al ticket, despues de realizarce la venta.
     @sale = Sale.new(sale_params)
 
     if @sale.save
@@ -42,25 +44,26 @@ class SalesController < ApplicationController
 
   private
 
-    def generate_ticket(sale, travel_id, seat_ids)
-      seats = Seat.where(id: seat_ids)
-      if seats.count > 1
-        seats.each do |seat|
-          seats.tickets.create()
-          GenerateTicket.perform_now(seat) #TODO: Crear Job
-        end
-      else
-        seats.first.tickets.create()
-        GenerateTicket.perform_now(seats.first) #TODO: Crear Job
+  def generate_ticket(_sale, _travel_id, seat_ids)
+    seats = Seat.where(id: seat_ids)
+    if seats.count > 1
+      seats.each do |seat|
+        seats.tickets.create
+        GenerateTicket.perform_now(seat) # TODO: Crear Job
       end
+    else
+      seats.first.tickets.create
+      GenerateTicket.perform_now(seats.first) # TODO: Crear Job
     end
-    # Use callbacks to share common setup or constraints between actions.
-    def set_sale
-      @sale = Sale.find(params[:id])
-    end
+  end
 
-    # Only allow a list of trusted parameters through.
-    def sale_params
-      params.require(:sale).permit(:total_amount, :unitary_amount, :sale_person_id, :customer_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_sale
+    @sale = Sale.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def sale_params
+    params.require(:sale).permit(:total_amount, :unitary_amount, :sale_person_id, :customer_id)
+  end
 end

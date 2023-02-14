@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class YearManufacturersController < ApplicationController
-  before_action :set_vehicle_model, only: %i[ index create ]
-  before_action :set_year_manufacturer, only: %i[ show update destroy ]
+  before_action :set_vehicle_model, only: %i[index create]
+  before_action :set_year_manufacturer, only: %i[show update destroy]
 
   # GET /year_manufacturers
   def index
@@ -40,17 +42,18 @@ class YearManufacturersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_year_manufacturer
-      @year_manufacturer = YearManufacturer.find(params[:id])
-    end
 
-    def set_vehicle_model
-      @vehicle_model = VehicleModel.find(params[:vehicle_model_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_year_manufacturer
+    @year_manufacturer = YearManufacturer.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def year_manufacturer_params
-      params.require(:year_manufacturer).permit(:year)
-    end
+  def set_vehicle_model
+    @vehicle_model = VehicleModel.find(params[:vehicle_model_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def year_manufacturer_params
+    params.require(:year_manufacturer).permit(:year)
+  end
 end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ManufacturersController < ApplicationController
-  before_action :set_manufacturer, only: %i[ show update destroy ]
+  before_action :set_manufacturer, only: %i[show update destroy]
 
   # GET /manufacturers
   def index
@@ -39,13 +41,14 @@ class ManufacturersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_manufacturer
-      @manufacturer = Manufacturer.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def manufacturer_params
-      params.require(:manufacturer).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_manufacturer
+    @manufacturer = Manufacturer.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def manufacturer_params
+    params.require(:manufacturer).permit(:name)
+  end
 end

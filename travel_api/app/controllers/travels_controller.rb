@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TravelsController < ApplicationController
-  before_action :set_travel, only: %i[ show update destroy ]
+  before_action :set_travel, only: %i[show update destroy]
 
   # GET /travels
   def index
@@ -39,14 +41,15 @@ class TravelsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_travel
-      @travel = Travel.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def travel_params
-      params.require(:route).permit(:departure_time, :arrival_time, :departure_city, :arrival_city,
-                                    :status, :bus_id, :route_id, :driver_id, :driver_assistant_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_travel
+    @travel = Travel.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def travel_params
+    params.require(:route).permit(:departure_time, :arrival_time, :departure_city, :arrival_city,
+                                  :status, :bus_id, :route_id, :driver_id, :driver_assistant_id)
+  end
 end
