@@ -1,23 +1,23 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  departure_time: 2023-02-13
-  arrival_time: 2023-02-13
-  departure_city: MyString
-  arrival_city: MyString
-  status: MyString
-  bus: one
-  route: one
-  driver: one
-  driver_assitant: one
+#one:
+#  departure_time: 2023-02-13
+#  arrival_time: 2023-02-13
+#  departure_city: MyString
+#  arrival_city: MyString
+#  status: MyString
+#  bus: one
+#  route: one
+#  driver: one
+#  driver_assistant: one
 
-two:
-  departure_time: 2023-02-13
-  arrival_time: 2023-02-13
-  departure_city: MyString
-  arrival_city: MyString
-  status: MyString
-  bus: two
-  route: two
-  driver: two
-  driver_assitant: two
+#two:
+#  departure_time: 2023-02-13
+#  arrival_time: 2023-02-13
+#  departure_city: MyString
+#  arrival_city: MyString
+#  status: MyString
+#  bus: two
+#  route: two
+#  driver: two
+#  driver_assistant: two

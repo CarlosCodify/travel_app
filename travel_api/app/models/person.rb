@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 class Person < ApplicationRecord
-  has_many :customers, dependent: :destroy
-  has_many :staffs, dependent: :destroy
+  has_one :customer, dependent: :destroy
+  has_one :staff, dependent: :destroy
 end

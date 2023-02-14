@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  seat_number: 1
-  availability: false
-  bus: one
-  travel: one
+#one:
+#  seat_number: 1
+#  availability: false
+#  bus: one
+#  travel: one
 
-two:
-  seat_number: 1
-  availability: false
-  bus: two
-  travel: two
+#two:
+#  seat_number: 1
+#  availability: false
+#  bus: two
+#  travel: two
