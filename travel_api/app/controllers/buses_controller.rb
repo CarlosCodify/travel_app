@@ -12,7 +12,7 @@ class BusesController < ApplicationController
 
   # GET /buses/1
   def show
-    render json: @bus
+    render json: @bus.as_json(methods: :description)
   end
 
   # POST /buses
@@ -49,6 +49,6 @@ class BusesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def bus_params
-    params.require(:bus).permit(:type, :total_seats, :available_seats, :status, :year_manufacturer_id)
+    params.require(:bus).permit(:bus_type, :total_seats, :available_seats, :status, :year_manufacturer_id)
   end
 end
