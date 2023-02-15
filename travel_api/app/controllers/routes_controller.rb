@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RoutesController < ApplicationController
-  before_action :set_route, only: %i[show update destroy]
+  before_action :set_route, only: %i[show update destroy add_cities]
 
   # GET /routes
   def index
@@ -12,7 +12,7 @@ class RoutesController < ApplicationController
 
   # GET /routes/1
   def show
-    render json: @route
+    render json: @route.as_json(include: [{cities: { only: %i[id name abbreviation] }}])
   end
 
   # POST /routes
