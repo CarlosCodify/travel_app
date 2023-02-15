@@ -12,7 +12,7 @@ class RoutesController < ApplicationController
 
   # GET /routes/1
   def show
-    render json: @route.as_json(include: [{cities: { only: %i[id name abbreviation] }}])
+    render json: @route.as_json(include: [{ cities: { only: %i[id name abbreviation] } }])
   end
 
   # POST /routes
