@@ -8,4 +8,5 @@ class Travel < ApplicationRecord
   belongs_to :driver, optional: true
   belongs_to :driver_assistant, optional: true
   has_many :seats, dependent: :destroy
+  has_many :sales
 end

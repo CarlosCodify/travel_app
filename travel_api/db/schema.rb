@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_16_043404) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_16_051800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -109,8 +109,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_043404) do
     t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "travel_id", null: false
     t.index ["customer_id"], name: "index_sales_on_customer_id"
     t.index ["sale_person_id"], name: "index_sales_on_sale_person_id"
+    t.index ["travel_id"], name: "index_sales_on_travel_id"
   end
 
   create_table "seats", force: :cascade do |t|
@@ -214,6 +216,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_043404) do
   add_foreign_key "sale_people", "users"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales", "sale_people"
+  add_foreign_key "sales", "travels"
   add_foreign_key "seats", "buses"
   add_foreign_key "seats", "travels"
   add_foreign_key "staffs", "people"
