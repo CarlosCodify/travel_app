@@ -16,6 +16,7 @@ DeviseTokenAuth.setup do |config|
   # to 31. It is recommended to not use a value more than 10 in other environments.
   config.token_cost = Rails.env.test? ? 4 : 10
 
+
   # Sets the max number of concurrent devices per user, which is 10 by default.
   # After this limit is reached, the oldest tokens will be removed.
   # config.max_number_of_devices = 10
@@ -54,7 +55,7 @@ DeviseTokenAuth.setup do |config|
   # By default, only Bearer Token authentication is implemented out of the box.
   # If, however, you wish to integrate with legacy Devise authentication, you can
   # do so by enabling this flag. NOTE: This feature is highly experimental!
-  # config.enable_standard_devise_support = false
+  config.enable_standard_devise_support = true
 
   # By default DeviseTokenAuth will not send confirmation email, even when including
   # devise confirmable module. If you want to use devise confirmable module and
