@@ -10,6 +10,11 @@ class Bus < ApplicationRecord
   delegate :vehicle_model, to: :year_manufacturer
   delegate :manufacturer, to: :vehicle_model
 
+  def decrement!
+    self.available_seats -= 1
+    save!
+  end
+
   def description
     "#{manufacturer.name} #{vehicle_model.name} (#{year_manufacturer.year})"
   end

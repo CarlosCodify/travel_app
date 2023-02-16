@@ -6,6 +6,11 @@ class Seat < ApplicationRecord
 
   after_initialize :default_values, if: :new_record?
 
+  def busy!
+    self.availability = false
+    save!
+  end
+
   def default_values
     self.availability ||= true
   end

@@ -26,7 +26,7 @@ class YearManufacturersController < ApplicationController
     @year_manufacturer = @vehicle_model.year_manufacturers.new(year_manufacturer_params)
 
     if @year_manufacturer.save
-      render json: @year_manufacturer, status: :created, location: @year_manufacturer
+      render json: @year_manufacturer, status: :created
     else
       render json: @year_manufacturer.errors, status: :unprocessable_entity
     end

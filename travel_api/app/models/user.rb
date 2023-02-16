@@ -7,4 +7,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+
+  has_one :driver_assistant
+  has_one :driver
+  has_one :sale_person
 end

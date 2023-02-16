@@ -18,21 +18,32 @@ class StaffsController < ApplicationController
 
   # POST /staffs
   def create
-    # ? Aquí recibiremos un parametro que idica el tipo de staff que se debe crear
-    person = Person.build(staff_params)
-    staff = person.staff.build
+    person = Person.new(staff_params)
+    staff = person.build_staff
 
     @staff = case params[:type]
              when 'driver'
-               staff.driver.build(driver_licence: staff_params[:driver_licence])
+               driver = staff.build_driver(driver_licence: params[:driver_licence])
+               user = driver.build_user(name: params[:name], email: params[:email], nickname: params[:nickname],
+                                        password: params[:password], password_confirmation: params[:password_confirmation])
+               driver
              when 'driver_assistant'
-               staff.driver_assistant.build
+               driver_assistant = staff.build_driver_assistant
+               user = driver_assistant.build_user(name: params[:name], email: params[:email], nickname: params[:nickname],
+                                                  password: params[:password], password_confirmation: params[:password_confirmation])
+               driver_assistant
              else
-               staff.sale_person.build
+               sale_person = staff.build_sale_person
+               user = sale_person.build_user(name: params[:name], email: params[:email], nickname: params[:nickname],
+                                             password: params[:password], password_confirmation: params[:password_confirmation])
+               sale_person
              end
 
     if @staff.save
-      render json: @staff, status: :created
+      render json: {
+        person: @staff.as_json(except: %i[created_at updated_at]),
+        user: user.as_json(except: %i[created_at updated_at])
+      }, status: :created
     else
       render json: @staff.errors, status: :unprocessable_entity
     end
@@ -56,11 +67,18 @@ class StaffsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_staff
-    @staff = Staff.find(params[:id])
+    @staff = case params[:type]
+             when 'driver'
+               Driver.find(params[:id])
+             when 'driver_assistant'
+               DriverAssistant.find(params[:id])
+             else
+               SalePerson.find(params[:id])
+             end
   end
 
   # Only allow a list of trusted parameters through.
   def staff_params
-    params.require(:staff).permit(:name, :last_name, :identity_document, :status, :birthday, :driver_licence)
+    params.require(:staff).permit(:name, :last_name, :identity_document, :status, :birthday)
   end
 end
