@@ -23,7 +23,7 @@ class SalesController < ApplicationController
 
     if @sale.save
       generate_ticket(@sale, params[:travel_id], params[:seat_ids])
-      render json: @sale, status: :created, location: @sale
+      render json: @sale, status: :created
     else
       render json: @sale.errors, status: :unprocessable_entity
     end
