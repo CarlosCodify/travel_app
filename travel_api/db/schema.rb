@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_15_145340) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_16_025056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "buses", force: :cascade do |t|
-    t.string "type"
+    t.integer "bus_type"
     t.integer "total_seats"
     t.integer "available_seats"
-    t.string "status"
+    t.integer "status"
     t.bigint "year_manufacturer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -30,11 +30,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_15_145340) do
     t.string "abbreviation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "cities_routes", id: false, force: :cascade do |t|
-    t.bigint "city_id", null: false
-    t.bigint "route_id", null: false
   end
 
   create_table "customers", force: :cascade do |t|
@@ -73,6 +68,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_15_145340) do
     t.date "birthday"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "route_cities", force: :cascade do |t|
+    t.bigint "route_id", null: false
+    t.bigint "city_id", null: false
+    t.boolean "origin"
+    t.boolean "destination"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["city_id"], name: "index_route_cities_on_city_id"
+    t.index ["route_id"], name: "index_route_cities_on_route_id"
   end
 
   create_table "routes", force: :cascade do |t|
@@ -136,11 +142,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_15_145340) do
     t.date "arrival_time"
     t.string "departure_city"
     t.string "arrival_city"
-    t.string "status"
+    t.integer "status"
     t.bigint "bus_id", null: false
     t.bigint "route_id", null: false
-    t.bigint "driver_id", null: false
-    t.bigint "driver_assistant_id", null: false
+    t.bigint "driver_id"
+    t.bigint "driver_assistant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bus_id"], name: "index_travels_on_bus_id"
@@ -194,6 +200,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_15_145340) do
   add_foreign_key "customers", "people"
   add_foreign_key "driver_assistants", "staffs"
   add_foreign_key "drivers", "staffs"
+  add_foreign_key "route_cities", "cities"
+  add_foreign_key "route_cities", "routes"
   add_foreign_key "sale_people", "staffs"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales", "sale_people"
