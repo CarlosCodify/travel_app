@@ -2,4 +2,5 @@
 
 class DriverAssistant < ApplicationRecord
   belongs_to :staff
+  belongs_to :user
 end

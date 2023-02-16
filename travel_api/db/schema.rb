@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_16_025056) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_16_043404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,15 +43,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_025056) do
     t.bigint "staff_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["staff_id"], name: "index_driver_assistants_on_staff_id"
+    t.index ["user_id"], name: "index_driver_assistants_on_user_id"
   end
 
   create_table "drivers", force: :cascade do |t|
-    t.string "driver_license"
+    t.string "driver_licence"
     t.bigint "staff_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["staff_id"], name: "index_drivers_on_staff_id"
+    t.index ["user_id"], name: "index_drivers_on_user_id"
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -93,7 +97,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_025056) do
     t.bigint "staff_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["staff_id"], name: "index_sale_people_on_staff_id"
+    t.index ["user_id"], name: "index_sale_people_on_user_id"
   end
 
   create_table "sales", force: :cascade do |t|
@@ -199,10 +205,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_025056) do
   add_foreign_key "buses", "year_manufacturers"
   add_foreign_key "customers", "people"
   add_foreign_key "driver_assistants", "staffs"
+  add_foreign_key "driver_assistants", "users"
   add_foreign_key "drivers", "staffs"
+  add_foreign_key "drivers", "users"
   add_foreign_key "route_cities", "cities"
   add_foreign_key "route_cities", "routes"
   add_foreign_key "sale_people", "staffs"
+  add_foreign_key "sale_people", "users"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales", "sale_people"
   add_foreign_key "seats", "buses"
