@@ -13,6 +13,8 @@ class SalesController < ApplicationController
 
   # GET /sales/1
   def show
+    ticket = @sale.tickets.first
+
     render json: @sale.as_json(include: { tickets: { except: %i[created_at updated_at] } })
   end
 
@@ -52,16 +54,58 @@ class SalesController < ApplicationController
 
     if seats.count > 1
       seats.each do |seat|
-        sale.tickets.create(customer: sale.customer, seat: seat)
+        ticket = sale.tickets.create(customer: sale.customer, seat: seat)
         seat.busy!
-        seat.bus.drease!
-        # GenerateTicket.perform_now(ticket) # TODO: Crear Job for generate ticket
+        seat.bus.decrement!
+
+        pdf = Prawn::Document.new(page_size: [200, 130], margin: [5, 5, 5, 5])
+
+        pdf.font_size 8
+        pdf.move_down 10
+        pdf.text "TRANSPORTE MARISCAL SANTA CRUZ:", align: :center, style: :bold
+        pdf.move_down 5
+        pdf.text "Nombre: #{ticket.customer.person.name} #{ticket.customer.person.last_name}"
+        pdf.move_down 5
+        pdf.text "Código: #{ticket.serial_number}"
+        pdf.move_down 5
+        pdf.text "Asiento: #{ticket.seat.seat_number}"
+        pdf.move_down 5
+        pdf.text "Origen: #{ticket.sale.travel.departure_city}"
+        pdf.move_down 5
+        pdf.text "Destino: #{ticket.sale.travel.arrival_city}"
+        pdf.move_down 5
+        pdf.text "Precio: #{ticket.sale.unitary_amount}"
+        pdf.move_down 5
+        pdf.text "Hora de Salida: #{ticket.sale.travel.departure_time}"
+    
+        pdf.render_file "#{Rails.public_path}/tickets/ticket_#{ticket.id}.pdf"
       end
     else
-      sale.tickets.create(customer: sale.customer, seat: seats.first)
+      ticket = sale.tickets.create(customer: sale.customer, seat: seats.first)
       seats.first.busy!
       seats.first.bus.decrement!
-      # GenerateTicket.perform_now(ticket) # TODO: Crear Job for generate ticket
+      
+      pdf = Prawn::Document.new(page_size: [200, 130], margin: [5, 5, 5, 5])
+
+      pdf.font_size 8
+      pdf.move_down 10
+      pdf.text "TRANSPORTE MARISCAL SANTA CRUZ:", align: :center, style: :bold
+      pdf.move_down 5
+      pdf.text "Nombre: #{ticket.customer.person.name} #{ticket.customer.person.last_name}"
+      pdf.move_down 5
+      pdf.text "Código: #{ticket.serial_number}"
+      pdf.move_down 5
+      pdf.text "Asiento: #{ticket.seat.seat_number}"
+      pdf.move_down 5
+      pdf.text "Origen: #{ticket.sale.travel.departure_city}"
+      pdf.move_down 5
+      pdf.text "Destino: #{ticket.sale.travel.arrival_city}"
+      pdf.move_down 5
+      pdf.text "Precio: #{ticket.sale.unitary_amount}"
+      pdf.move_down 5
+      pdf.text "Hora de Salida: #{ticket.sale.travel.departure_time}"
+
+      pdf.render_file "#{Rails.public_path}/tickets/ticket_#{ticket.id}.pdf"
     end
   end
 
