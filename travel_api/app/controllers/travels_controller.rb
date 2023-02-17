@@ -20,6 +20,8 @@ class TravelsController < ApplicationController
 
     available_seat_numbers = @travel.seats.where(availability: true).pluck(:seat_number)
 
+    available_seat_ids = @travel.seats.where(availability: true).pluck(:id)
+
     travel_info = {
       id: @travel.id,
       departure_city: @travel.departure_city,
@@ -31,6 +33,7 @@ class TravelsController < ApplicationController
       total_seats: total_seats,
       available_seats: available_seats,
       available_seat_numbers: available_seat_numbers
+      available_seat_ids: available_seat_ids
     }
 
     render json: travel_info
