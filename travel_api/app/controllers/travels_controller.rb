@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TravelsController < ApplicationController
-  # before_action :authenticate_user!
+  #before_action :authenticate_user!
   before_action :set_travel, only: %i[show update destroy]
 
   # GET /travels

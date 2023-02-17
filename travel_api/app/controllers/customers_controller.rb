@@ -5,7 +5,7 @@ class CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @customers = Customer.all
+    @customers = Customer.joins(:person).select('customers.id, customers.person_id, people.name, people.last_name').all
 
     render json: @customers
   end

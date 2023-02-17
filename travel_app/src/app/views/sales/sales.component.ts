@@ -29,7 +29,8 @@ export class SalesComponent implements OnInit{
 
     this.httpClient.get<any>(`${environment.apiUrl}/sales`).subscribe(
       response => {
-        this.sales = response.data;
+        console.log(response);
+        this.sales = response;
       });
   }
 

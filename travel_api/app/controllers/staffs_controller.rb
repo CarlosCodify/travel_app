@@ -63,6 +63,12 @@ class StaffsController < ApplicationController
     @staff.destroy
   end
 
+  def staffs_by_user_id
+    @user = User.find(params[:id])
+    @staff = @user.person.staff
+    render json: @staff
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

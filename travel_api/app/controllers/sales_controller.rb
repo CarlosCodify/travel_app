@@ -6,8 +6,8 @@ class SalesController < ApplicationController
 
   # GET /sales
   def index
-    @sales = Sale.all
-
+    @sales = Sale.joins(:sale_person, :travel, :customer).all
+                 .select('sale_people.*, travels.*, customers.*, sales.*')
     render json: @sales
   end
 
