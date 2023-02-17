@@ -4,7 +4,6 @@ require 'test_helper'
 require 'faker'
 
 class CustomerTest < ActiveSupport::TestCase
-
   test 'Create customer' do
     customer = Customer.new
     customer.person = Person.new

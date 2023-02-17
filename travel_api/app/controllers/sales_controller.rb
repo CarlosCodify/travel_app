@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SalesController < ApplicationController
+  # before_action :authenticate_user!
   before_action :set_sale, only: %i[show update destroy]
 
   # GET /sales
@@ -12,17 +13,16 @@ class SalesController < ApplicationController
 
   # GET /sales/1
   def show
-    render json: @sale
+    render json: @sale.as_json(include: { tickets: { except: %i[created_at updated_at] } })
   end
 
   # POST /sales
   def create
-    # TODO: Agregamos el params de travel_id y seat_ids para asignarlo al ticket, despues de realizarce la venta.
     @sale = Sale.new(sale_params)
-
     if @sale.save
-      generate_ticket(@sale, params[:travel_id], params[:seat_ids])
-      render json: @sale, status: :created, location: @sale
+      generate_ticket(@sale, params[:seat_ids])
+
+      render json: @sale.as_json(include: { tickets: { except: %i[created_at updated_at] } }), status: :created
     else
       render json: @sale.errors, status: :unprocessable_entity
     end
@@ -44,16 +44,66 @@ class SalesController < ApplicationController
 
   private
 
-  def generate_ticket(_sale, _travel_id, seat_ids)
+  def generate_ticket(sale, seat_ids)
+    price = sale.travel.route.price
     seats = Seat.where(id: seat_ids)
+    sale.unitary_amount = price
+    sale.total_amount = price * params[:seat_ids].count
+
     if seats.count > 1
       seats.each do |seat|
-        seats.tickets.create
-        GenerateTicket.perform_now(seat) # TODO: Crear Job
+        ticket = sale.tickets.create(customer: sale.customer, seat: seat)
+        seat.busy!
+        seat.bus.decrement!
+
+        pdf = Prawn::Document.new(page_size: [200, 130], margin: [5, 5, 5, 5])
+
+        pdf.font_size 8
+        pdf.move_down 10
+        pdf.text "TRANSPORTE MARISCAL SANTA CRUZ:", align: :center, style: :bold
+        pdf.move_down 5
+        pdf.text "Nombre: #{ticket.customer.person.name} #{ticket.customer.person.last_name}"
+        pdf.move_down 5
+        pdf.text "Código: #{ticket.serial_number}"
+        pdf.move_down 5
+        pdf.text "Asiento: #{ticket.seat.seat_number}"
+        pdf.move_down 5
+        pdf.text "Origen: #{ticket.sale.travel.departure_city}"
+        pdf.move_down 5
+        pdf.text "Destino: #{ticket.sale.travel.arrival_city}"
+        pdf.move_down 5
+        pdf.text "Precio: #{ticket.sale.unitary_amount}"
+        pdf.move_down 5
+        pdf.text "Hora de Salida: #{ticket.sale.travel.departure_time}"
+    
+        pdf.render_file "#{Rails.public_path}/tickets/ticket_#{ticket.id}.pdf"
       end
     else
-      seats.first.tickets.create
-      GenerateTicket.perform_now(seats.first) # TODO: Crear Job
+      ticket = sale.tickets.create(customer: sale.customer, seat: seats.first)
+      seats.first.busy!
+      seats.first.bus.decrement!
+      
+      pdf = Prawn::Document.new(page_size: [200, 130], margin: [5, 5, 5, 5])
+
+      pdf.font_size 8
+      pdf.move_down 10
+      pdf.text "TRANSPORTE MARISCAL SANTA CRUZ:", align: :center, style: :bold
+      pdf.move_down 5
+      pdf.text "Nombre: #{ticket.customer.person.name} #{ticket.customer.person.last_name}"
+      pdf.move_down 5
+      pdf.text "Código: #{ticket.serial_number}"
+      pdf.move_down 5
+      pdf.text "Asiento: #{ticket.seat.seat_number}"
+      pdf.move_down 5
+      pdf.text "Origen: #{ticket.sale.travel.departure_city}"
+      pdf.move_down 5
+      pdf.text "Destino: #{ticket.sale.travel.arrival_city}"
+      pdf.move_down 5
+      pdf.text "Precio: #{ticket.sale.unitary_amount}"
+      pdf.move_down 5
+      pdf.text "Hora de Salida: #{ticket.sale.travel.departure_time}"
+
+      pdf.render_file "#{Rails.public_path}/tickets/ticket_#{ticket.id}.pdf"
     end
   end
 
@@ -64,6 +114,6 @@ class SalesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def sale_params
-    params.require(:sale).permit(:total_amount, :unitary_amount, :sale_person_id, :customer_id)
+    params.require(:sale).permit(:total_amount, :unitary_amount, :sale_person_id, :customer_id, :travel_id)
   end
 end

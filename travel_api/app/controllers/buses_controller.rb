@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class BusesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_bus, only: %i[show update destroy]
 
   # GET /buses
@@ -12,7 +13,7 @@ class BusesController < ApplicationController
 
   # GET /buses/1
   def show
-    render json: @bus
+    render json: @bus.as_json(methods: :description)
   end
 
   # POST /buses
@@ -20,7 +21,7 @@ class BusesController < ApplicationController
     @bus = Bus.new(bus_params)
 
     if @bus.save
-      render json: @bus, status: :created
+      render json: @bus.as_json(methods: :description), status: :created
     else
       render json: @bus.errors, status: :unprocessable_entity
     end
@@ -29,7 +30,7 @@ class BusesController < ApplicationController
   # PATCH/PUT /buses/1
   def update
     if @bus.update(bus_params)
-      render json: @bus
+      render json: @bus.as_json(methods: :description)
     else
       render json: @bus.errors, status: :unprocessable_entity
     end
@@ -49,6 +50,6 @@ class BusesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def bus_params
-    params.require(:bus).permit(:type, :total_seats, :available_seats, :status, :year_manufacturer_id)
+    params.require(:bus).permit(:bus_type, :total_seats, :available_seats, :status, :year_manufacturer_id)
   end
 end

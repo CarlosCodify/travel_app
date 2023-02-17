@@ -1,27 +1,32 @@
 # frozen_string_literal: true
 
 class YearManufacturersController < ApplicationController
-  before_action :set_vehicle_model, only: %i[index create]
+  before_action :authenticate_user!
+  before_action :set_vehicle_model, only: %i[create]
   before_action :set_year_manufacturer, only: %i[show update destroy]
 
   # GET /year_manufacturers
   def index
-    @year_manufacturers = YearManufacturer.all
+    @year_manufacturers = YearManufacturer.all.includes(vehicle_model: :manufacturer)
 
-    render json: @year_manufacturers
+    render json: @year_manufacturers.as_json(except: %i[created_at updated_at],
+                                             include: [{ vehicle_model: { include: { manufacturer: { only: %i[id name] } },
+                                                                          only: %i[id name] } }])
   end
 
   # GET /year_manufacturers/1
   def show
-    render json: @year_manufacturer
+    render json: @year_manufacturer.as_json(except: %i[created_at updated_at],
+                                            include: [{ vehicle_model: { include: { manufacturer: { only: %i[id name] } },
+                                                                         only: %i[id name] } }])
   end
 
   # POST /year_manufacturers
   def create
-    @year_manufacturer = YearManufacturer.new(year_manufacturer_params)
+    @year_manufacturer = @vehicle_model.year_manufacturers.new(year_manufacturer_params)
 
     if @year_manufacturer.save
-      render json: @year_manufacturer, status: :created, location: @year_manufacturer
+      render json: @year_manufacturer, status: :created
     else
       render json: @year_manufacturer.errors, status: :unprocessable_entity
     end

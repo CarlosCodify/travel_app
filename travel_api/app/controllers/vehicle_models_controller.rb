@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class VehicleModelsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_manufacturer, only: %i[index create]
   before_action :set_vehicle_model, only: %i[show update destroy]
 
@@ -18,7 +19,7 @@ class VehicleModelsController < ApplicationController
 
   # POST /vehicle_models
   def create
-    @vehicle_model = VehicleModel.new(vehicle_model_params)
+    @vehicle_model = @manufacturer.vehicle_models.new(vehicle_model_params)
 
     if @vehicle_model.save
       render json: @vehicle_model, status: :created
