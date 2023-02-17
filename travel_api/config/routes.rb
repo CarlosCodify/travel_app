@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   resources :users
   mount_devise_token_auth_for 'User', at: 'auth'
 
-  resources :staffs
+  resources :staffs do
+    get :staffs_by_user_id, on: :collection
+  end
   resources :sales
   resources :buses
   resources :travels

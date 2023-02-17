@@ -1,10 +1,25 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <select formControlName="customerId" >
+  <label for="customer-select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cliente</label>
+  <select formControlName="customerId" id="customer-select"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     <option *ngFor="let customer of customers" [value]="customer.id">
-      {{ customer.name }}
+      {{ customer.name }} {{ customer.last_name }}
     </option>
   </select>
 
-  <input type="text" formControlName="email" />
-  <button type="submit">Submit</button>
+  <label for="travel-select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Viaje</label>
+  <select formControlName="travelId" id="travel-select"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <option *ngFor="let travel of travels" [value]="travel.id">
+      {{ travel.departure_city }} - {{ travel.arrival_city}}
+    </option>
+  </select>
+
+  <label for="total-amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Viaje</label>
+  <input type="number" formControlName="totalAmount"
+         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+         placeholder="Cantidad" step="1" min="1" max="10" id="total-amount">
+  <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+    Guardar venta
+  </button>
 </form>

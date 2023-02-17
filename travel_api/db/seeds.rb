@@ -170,3 +170,38 @@ rand(10..20).times do
   )
   driver_assistant_data.append(driver_assistant)
 end
+
+sale_person_data = []
+rand(10..20).times do
+  sale_person = SalePerson.create!(
+    staff_id: staff_data.sample.id,
+    user_id: user_data.sample.id,
+  )
+  sale_person_data.append(sale_person)
+end
+
+travel_data = []
+rand(30..50).times do
+  travel = Travel.create!(
+    departure_time: Faker::Time.between(from: DateTime.now - 1, to: DateTime.now),
+    arrival_time: Faker::Time.between(from: DateTime.now, to: DateTime.now + 1),
+    departure_city: city_data.sample.name,
+    arrival_city: city_data.sample.name,
+    status: rand(1..1),
+    bus_id: Bus.all.sample.id,
+    route_id: route_data.sample.id,
+    driver_id: driver_data.sample.id,
+    driver_assistant_id: driver_assistant_data.sample.id,
+  )
+  travel_data.append(travel)
+end
+
+rand(30..50).times do
+  Sale.create!(
+    total_amount: rand(1..10),
+    unitary_amount: rand(100..400),
+    sale_person_id: SalePerson.all.sample.id,
+    customer_id: Customer.all.sample.id,
+    travel_id: travel_data.sample.id,
+  )
+end

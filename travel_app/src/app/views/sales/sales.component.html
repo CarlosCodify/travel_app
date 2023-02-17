@@ -11,9 +11,9 @@
     <tr>
       <th class="px-6 py-3" scope="col">Cliente</th>
       <th class="px-6 py-3" scope="col">Vendedor</th>
-      <th class="px-6 py-3" scope="col">Unitario</th>
+      <th class="px-6 py-3" scope="col">Precio Unitario</th>
       <th class="px-6 py-3" scope="col">Viaje</th>
-      <th class="px-6 py-3" scope="col">Acciones</th>
+      <th class="px-6 py-3" scope="col">Cantidad</th>
       <th class="px-6 py-3" scope="col">Total</th>
       <th class="px-6 py-3" scope="col">Fecha</th>
     </tr>
@@ -24,8 +24,9 @@
       <td>{{sale.sale_person_id}}</td>
       <td>{{sale.customer_id}}</td>
       <td>{{sale.unitary_amount}}</td>
-      <td>{{sale.travel_id}}</td>
+      <td>{{sale.departure_city}} - {{sale.arrival_city}}</td>
       <td>{{sale.total_amount}}</td>
+      <td>{{sale.total_amount * sale.unitary_amount}}</td>
       <td>{{sale.created_at}}</td>
       <td class="px-6 py-4">
         <a (click)="editSale(sale.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</a>

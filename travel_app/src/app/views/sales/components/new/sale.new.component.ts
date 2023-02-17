@@ -16,7 +16,7 @@ export class SaleNewComponent implements OnInit {
   formGroup: any;
   formBuilder: any;
   customers: any = [];
-  private travels: any = [];
+  travels: any = [];
 
   constructor(private httpClient: HttpClient, private route: ActivatedRoute, private router: Router, private userRepository: UserRepository) {
     this.formBuilder = new FormBuilder();
@@ -26,44 +26,51 @@ export class SaleNewComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       customerId: ['', Validators.required],
       travelId: ['', Validators.required],
-      unitPrice: ['', Validators.required],
       totalAmount: ['', Validators.required],
     });
 
     this.httpClient.get<any>(`${environment.apiUrl}/customers`).subscribe(
       {
         next: response => {
-          this.customers = response.data;
+          this.customers = response;
         },
         error: error => {
           console.error('There was an error!', error);
-          // this.router.navigate(['/sales']);
         }
       });
     this.httpClient.get<any>(`${environment.apiUrl}/travels`).subscribe(
       {
         next: response => {
-          this.travels = response.data;
+          this.travels = response;
         },
         error: error => {
           console.error('There was an error!', error);
-          // this.router.navigate(['/sales']);
         }
       });
   }
 
   onSubmit() {
-    if (!this.formGroup.valid) {
-      this.sale.salePersonId = this.userRepository.getUser()?.getId();
-      this.httpClient.post<any>(`${environment.apiUrl}/sales`, this.sale).subscribe(
-        {
-          next: response => {
-            this.router.navigate(['/sales']);
+    if (this.formGroup.valid) {
+      const user = this.userRepository.getUser();
+      if (user) {
+        this.httpClient.get(`${environment.apiUrl}/staffs_by_user_id/${user.id}`).subscribe({
+          next: (response: any) => {
+            this.sale.salePersonId = response.id;
+            this.httpClient.post<any>(`${environment.apiUrl}/sales`, this.sale).subscribe(
+              {
+                next: response => {
+                  this.router.navigate(['/sales']);
+                },
+                error: error => {
+                  console.error('There was an error!', error);
+                }
+              });
           },
           error: error => {
             console.error('There was an error!', error);
           }
         });
+      }
     }
   }
 }
