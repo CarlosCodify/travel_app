@@ -1,4 +1,3 @@
-
 # Check if there is an admin user
 admin_user = User.find_by(email: "admin@admin.com")
 if admin_user
@@ -6,7 +5,6 @@ if admin_user
 else
   admin_user = User.create!(email: "admin@admin.com", password: "password", password_confirmation: "password")
 end
-
 
 cities = [
   { name: "Santa Cruz", abbreviation: "sc" },
@@ -20,8 +18,10 @@ cities = [
   { name: "Tarija", abbreviation: "tj" }
 ]
 
+city_data = []
 cities.each do |city|
-  City.create!(city)
+  city = City.create!(city)
+  city_data.append(city)
 end
 
 # Manufacturers
@@ -83,28 +83,90 @@ rand(30..50).times do
   year_manufacturers.append(year_manufacturer)
 end
 
-# bus_type
-# total_seats
-# available_seats
-# status
-# year_manufacturer_id
-
 rand(30..50).times do
   Bus.create!(
-    bus_type: rand(0..2),
+    bus_type: rand(1..2),
     total_seats: rand(20..50),
     available_seats: rand(15..45),
-    status: rand(0..2),
+    status: rand(1..2),
     year_manufacturer_id: rand(1..(year_manufacturers.size - 1)),
   )
 end
 
+person_data = []
 rand(30..50).times do
-  Person.create!(
+  person = Person.create!(
     name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     identity_document: Faker::IDNumber.valid,
-    status: rand(0..1),
+    status: rand(1..1),
     birthday: Faker::Date.birthday(min_age: 18, max_age: 65)
   )
+  person_data.append(person)
+end
+
+route_data = []
+rand(30..50).times do
+  city_origin = city_data[rand(1..(city_data.size - 1))]
+  city_destination = city_data[rand(1..(city_data.size - 1))]
+  route = Route.create!(
+    name: "#{city_origin.name} - #{city_destination.name}",
+    price: rand(100..400),
+    distance: "#{rand(100..400)} km",
+  )
+  route_data.append(route)
+end
+
+rand(30..50).times do
+  RouteCity.create!(
+    route_id: route_data[rand(1..(route_data.size - 1))].id,
+    city_id: city_data[rand(1..(city_data.size - 1))].id,
+    origin: Faker::Boolean.boolean,
+    destination: Faker::Boolean.boolean
+  )
+end
+
+customer_data = []
+rand(10..20).times do
+  customer = Customer.create!(
+    person_id: person_data.sample.id,
+  )
+  customer_data.append(customer)
+end
+
+user_data = []
+10.times do
+  user = User.create!(
+    email: Faker::Internet.email,
+    password: Faker::Internet.password(min_length: 8),
+  )
+  user_data.append(user)
+end
+
+staff_data = []
+staff_person_data = person_data - customer_data
+rand(10..20).times do
+  staff = Staff.create!(
+    person_id: staff_person_data.sample.id,
+  )
+  staff_data.append(staff)
+end
+
+driver_data = []
+rand(10..20).times do
+  driver = Driver.create!(
+    staff_id: staff_data.sample.id,
+    driver_licence: Faker::IDNumber.valid,
+    user_id: user_data.sample.id,
+  )
+  driver_data.append(driver)
+end
+
+driver_assistant_data = []
+rand(10..20).times do
+  driver_assistant = DriverAssistant.create!(
+    staff_id: staff_data.sample.id,
+    user_id: user_data.sample.id,
+  )
+  driver_assistant_data.append(driver_assistant)
 end
