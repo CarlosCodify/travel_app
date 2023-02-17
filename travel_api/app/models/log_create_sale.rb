@@ -1,0 +1,2 @@
+class LogCreateSale < ApplicationRecord
+end

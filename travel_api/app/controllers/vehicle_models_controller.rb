@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class VehicleModelsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_manufacturer, only: %i[index create]
   before_action :set_vehicle_model, only: %i[show update destroy]
 

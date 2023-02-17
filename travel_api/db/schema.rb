@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_16_051800) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_17_213134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_051800) do
     t.bigint "user_id"
     t.index ["staff_id"], name: "index_drivers_on_staff_id"
     t.index ["user_id"], name: "index_drivers_on_user_id"
+  end
+
+  create_table "log_create_sales", force: :cascade do |t|
+    t.integer "sale_id"
+    t.integer "sale_person"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "manufacturers", force: :cascade do |t|
