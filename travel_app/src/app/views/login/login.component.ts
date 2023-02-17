@@ -27,7 +27,11 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
-
+    const user: User = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : null;
+    if (user) {
+      this.userRepository.setUser(user);
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   onSubmit() {
@@ -38,13 +42,17 @@ export class LoginComponent implements OnInit {
       password: password
     }, {
       observe: 'response',
-    }).subscribe(
-      response => {
+    }).subscribe({
+      next: response => {
         const user: Omit<User, "password"> = new User();
         user.setId(response.body.data.id);
         user.setEmail(response.body.data.email);
         this.userRepository.setUser(user);
         this.router.navigate(['/dashboard']);
-      });
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    })
   }
 }

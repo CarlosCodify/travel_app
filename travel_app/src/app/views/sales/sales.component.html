@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+<ng-container *ngIf="displayNewForm == false && displayEditForm == false">
+  <button (click)="newSale()"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          type="button">
+    Nueva venta
+  </button>
+
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th class="px-6 py-3" scope="col">Cliente</th>
+      <th class="px-6 py-3" scope="col">Vendedor</th>
+      <th class="px-6 py-3" scope="col">Unitario</th>
+      <th class="px-6 py-3" scope="col">Viaje</th>
+      <th class="px-6 py-3" scope="col">Acciones</th>
+      <th class="px-6 py-3" scope="col">Total</th>
+      <th class="px-6 py-3" scope="col">Fecha</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let sale of sales" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <!--      <th scope="row">{{sale.id}}</th>-->
+      <td>{{sale.sale_person_id}}</td>
+      <td>{{sale.customer_id}}</td>
+      <td>{{sale.unitary_amount}}</td>
+      <td>{{sale.travel_id}}</td>
+      <td>{{sale.total_amount}}</td>
+      <td>{{sale.created_at}}</td>
+      <td class="px-6 py-4">
+        <a (click)="editSale(sale.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</a>
+        <a (click)="deleteSale(sale.id)"
+           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Eliminar</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</ng-container>
+<ng-container *ngIf="displayEditForm == true && displayNewForm !== true">
+  <app-sale-edit [saleId]="saleId"></app-sale-edit>
+</ng-container>
+<ng-container *ngIf="displayEditForm == false && displayNewForm == true">
+  <app-sale-new></app-sale-new>
+</ng-container>
+

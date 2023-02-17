@@ -13,8 +13,8 @@ import {NavbarModule} from "../../components/navbar/navbar.module";
   ],
   imports: [
     CommonModule,
+    NavbarModule,
     DashboardRoutingModule,
-    NavbarModule
   ]
 })
 export class DashboardModule { }

@@ -10,7 +10,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
-  }
+  },
+  {
+    path: 'sales',
+    loadChildren: () => import('./views/sales/sales.module').then(m => m.SalesModule)
+  },
 ];
 
 @NgModule({

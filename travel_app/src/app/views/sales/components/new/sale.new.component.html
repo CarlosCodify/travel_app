@@ -1,0 +1,10 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <select formControlName="customerId" >
+    <option *ngFor="let customer of customers" [value]="customer.id">
+      {{ customer.name }}
+    </option>
+  </select>
+
+  <input type="text" formControlName="email" />
+  <button type="submit">Submit</button>
+</form>
