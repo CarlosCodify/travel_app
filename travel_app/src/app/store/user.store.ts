@@ -1,4 +1,4 @@
-import {createStore, setProp, withProps} from '@ngneat/elf';
+import {createState, createStore, select, setProp, withProps} from '@ngneat/elf';
 import {User} from "../models/user.model";
 import {Injectable} from "@angular/core";
 
@@ -6,7 +6,8 @@ interface UserProps {
   user: Omit<User, "password"> | null;
 }
 
-const store = createStore(
+
+const userStore = createStore(
   {name: 'user'},
   withProps<UserProps>({
     user: null
@@ -19,26 +20,39 @@ const store = createStore(
 
 export class UserRepository {
   addUser(user: User) {
-    store.update(setProp('user', user));
+    userStore.update(setProp('user', user));
   }
 
   getUser() {
-    return store.getValue().user;
+    return userStore.getValue().user;
   }
 
   setUser(user: Omit<User, "password">){
-    store.update(setProp('user', user));
+    userStore.update(setProp('user', user));
+    this.saveToLocalStorage(user);
   }
   clearUser() {
-    store.reset();
+    userStore.reset();
   }
 
   updateUser(user: User) {
-    store.update((state) => ({
+    userStore.update((state) => ({
         ...state,
         user
       })
     );
+  }
+
+  isEmpty() {
+    return userStore.getValue().user === null;
+  }
+
+  private saveToLocalStorage(user: Omit<User, "password">) {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  private saveToCookie(user: Omit<User, "password">) {
+    document.cookie = `user=${JSON.stringify(user)}`;
   }
 }
 
