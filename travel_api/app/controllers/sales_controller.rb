@@ -13,8 +13,6 @@ class SalesController < ApplicationController
 
   # GET /sales/1
   def show
-    ticket = @sale.tickets.first
-
     render json: @sale.as_json(include: { tickets: { except: %i[created_at updated_at] } })
   end
 
