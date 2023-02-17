@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TravelsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_travel, only: %i[show update destroy]
 
   # GET /travels
@@ -32,7 +32,7 @@ class TravelsController < ApplicationController
       bus_type: @travel.bus.bus_type,
       total_seats: total_seats,
       available_seats: available_seats,
-      available_seat_numbers: available_seat_numbers
+      available_seat_numbers: available_seat_numbers,
       available_seat_ids: available_seat_ids
     }
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class YearManufacturersController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_vehicle_model, only: %i[create]
   before_action :set_year_manufacturer, only: %i[show update destroy]
 
